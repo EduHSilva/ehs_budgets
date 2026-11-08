@@ -1,7 +1,7 @@
 # Nuxt dev/build outputs
 .output
 .data
-src/.nuxt
+.nuxt
 .nitro
 .cache
 dist
@@ -18,9 +18,10 @@ logs
 .fleet
 .idea
 
+# Notas locais (não versionar)
+TODO.md
+
 # Local env files
 .env
 .env.*
 !.env.example
-.github
-android

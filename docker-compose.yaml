@@ -1,0 +1,33 @@
+# Sobe o EHS Orçamentos web conectado à rede do nginx dos microservices.
+#
+# Acesso: http://localhost/app/budgets/
+#
+# Uso:
+#   docker compose up -d --build
+#   docker compose logs -f budgets-ui
+
+services:
+  budgets-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NUXT_APP_BASE_URL: /app/budgets/
+        # Vazio = mesma origem (window.location.origin) -> /budgets e /users no gateway.
+        NUXT_PUBLIC_API_URL: ${BUDGETS_PUBLIC_API_URL:-}
+        NUXT_PUBLIC_GOOGLE_CLIENT_ID: ${BUDGETS_GOOGLE_CLIENT_ID:-}
+    image: ${BUDGETS_UI_IMAGE:-ehs_budgets-ui:local}
+    container_name: budgets-ui
+    restart: unless-stopped
+    expose:
+      - "80"
+    networks:
+      default: {}
+      ehs_microservices:
+        aliases:
+          - budgets-ui
+
+networks:
+  ehs_microservices:
+    external: true
+    name: ${EHS_MICROSERVICES_NETWORK:-ehs_microservices_default}

@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap');
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+:root {
+  font-family: "Inter", sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+/*--
+/ --color = class bg-*
+ */
+@theme static {
+  --font-title: 'Outfit', sans-serif;
+  --font-default: 'Inter', sans-serif;
+
+  /* EHS brand palette — keep in sync with the other ehs_* web apps. */
+  --color-dark: #18181B;
+  --color-text-dark: #FAFAFA;
+  --color-cards-dark: #27272A;
+  --color-primary-dark: #818CF8;
+  --color-secondary-dark: #A78BFA;
+
+  --color-light: #FAFAFA;
+  --color-text: #3F3F46;
+  --color-cards: #FFFFFF;
+  --color-primary: #4F46E5;
+  --color-secondary: #7C3AED;
+}
