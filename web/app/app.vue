@@ -40,7 +40,10 @@ useSeoMeta({
     <CustomHeader />
     <NuxtPage />
     <footer class="border-t border-default px-4 py-3 text-sm text-muted">
-      EHS Solutions • EHS Orçamentos • © {{ new Date().getFullYear() }}
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <span>EHS Solutions • EHS Orçamentos • © {{ new Date().getFullYear() }}</span>
+        <a href="/app/privacidade/" class="text-primary hover:underline">{{ $t('privacyPolicy') }}</a>
+      </div>
     </footer>
   </div>
 </template>
