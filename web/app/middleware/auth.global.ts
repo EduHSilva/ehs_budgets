@@ -20,6 +20,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
   } catch (e) {
     console.error(e)
     token.value = { token: null }
-    return navigateTo('/')
+    return navigateTo('/auth/login')
   }
 })

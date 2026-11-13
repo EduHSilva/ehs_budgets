@@ -98,11 +98,13 @@ const fields: AuthFormField[] = [{
   type: 'checkbox'
 }]
 
-const providers = [{
-  label: $t('auth.google'),
-  icon: 'i-simple-icons-google',
-  onClick: handleGoogleProviderLogin
-}]
+const providers = computed(() => config.public.googleClientId
+  ? [{
+      label: $t('auth.google'),
+      icon: 'i-simple-icons-google',
+      onClick: handleGoogleProviderLogin
+    }]
+  : [])
 
 const schema = z.object({
   email: z.email($t('errors.invalidEmail')),
@@ -193,7 +195,7 @@ async function login(email: string | null, password: string | null, tokenGmail: 
         :title="$t('login')"
         :description="$t('auth.loginSubtitle')"
         :submit="{ label: $t('login') }"
-        :separator="$t('or')"
+        :separator="providers.length ? $t('or') : undefined"
         icon="i-lucide-lock"
         @submit="onSubmit"
       >
@@ -208,13 +210,13 @@ async function login(email: string | null, password: string | null, tokenGmail: 
         </template>
 
         <template #password-hint>
-          <ULink
-            to="#"
+          <a
+            href="/user/reset-password"
             class="text-primary font-medium"
             tabindex="-1"
           >
             {{ $t('forgotPassword') }}
-          </ULink>
+          </a>
         </template>
       </UAuthForm>
     </UPageCard>

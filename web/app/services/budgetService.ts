@@ -1,4 +1,5 @@
 import { getTokenCookie } from '~/utils/util'
+import { apiFetch } from '~/utils/apiFetch'
 import type { Budget } from '~/utils/types'
 
 export interface BudgetServiceOptions {
@@ -28,7 +29,7 @@ export default function budgetService({ apiUrl }: BudgetServiceOptions): BudgetS
       if (status != null && status != '') {
         base += `&status=${status}`
       }
-      return await $fetch(base, {
+      return await apiFetch(base, {
         headers: {
           Authorization: 'Bearer ' + getTokenCookie().value?.token
         }
@@ -36,7 +37,7 @@ export default function budgetService({ apiUrl }: BudgetServiceOptions): BudgetS
     },
 
     async add(budget: Budget): Promise<Budget> {
-      return await $fetch(`${apiUrl}budgets`, {
+      return await apiFetch(`${apiUrl}budgets`, {
         headers: {
           Authorization: 'Bearer ' + getTokenCookie().value?.token
         },
@@ -46,7 +47,7 @@ export default function budgetService({ apiUrl }: BudgetServiceOptions): BudgetS
     },
 
     async findById(id: string): Promise<DefaultResponse<Budget>> {
-      return await $fetch(`${apiUrl}budgets/${id}`, {
+      return await apiFetch(`${apiUrl}budgets/${id}`, {
         headers: {
           Authorization: 'Bearer ' + getTokenCookie().value?.token
         },
@@ -55,7 +56,7 @@ export default function budgetService({ apiUrl }: BudgetServiceOptions): BudgetS
     },
 
     async update(id: string, budget: Budget): Promise<Budget> {
-      return await $fetch(`${apiUrl}budgets/${id}`, {
+      return await apiFetch(`${apiUrl}budgets/${id}`, {
         headers: {
           Authorization: 'Bearer ' + getTokenCookie().value?.token
         },
@@ -65,7 +66,7 @@ export default function budgetService({ apiUrl }: BudgetServiceOptions): BudgetS
     },
 
     async delete(id: string): Promise<void> {
-      return await $fetch(`${apiUrl}budgets/${id}`, {
+      return await apiFetch(`${apiUrl}budgets/${id}`, {
         headers: {
           Authorization: 'Bearer ' + getTokenCookie().value?.token
         },

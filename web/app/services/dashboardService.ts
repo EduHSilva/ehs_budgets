@@ -1,4 +1,5 @@
 import { getTokenCookie } from '~/utils/util'
+import { apiFetch } from '~/utils/apiFetch'
 import type { DashboardData, DashboardKanbanData } from '~/utils/types'
 
 export interface BudgetServiceOptions {
@@ -15,7 +16,7 @@ export default function budgetService({ apiUrl }: BudgetServiceOptions): BudgetS
 
     async find(): Promise<DefaultResponse<DashboardData>> {
       const base = `${apiUrl}dashboard`
-      return await $fetch(base, {
+      return await apiFetch(base, {
         headers: {
           Authorization: 'Bearer ' + getTokenCookie().value?.token
         }
@@ -23,7 +24,7 @@ export default function budgetService({ apiUrl }: BudgetServiceOptions): BudgetS
     },
     async findKanban(): Promise<DefaultResponse<DashboardKanbanData>> {
       const base = `${apiUrl}dashboard/kanban`
-      return await $fetch(base, {
+      return await apiFetch(base, {
         headers: {
           Authorization: 'Bearer ' + getTokenCookie().value?.token
         }

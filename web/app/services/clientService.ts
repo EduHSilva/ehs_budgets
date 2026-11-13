@@ -1,4 +1,5 @@
 import { getTokenCookie } from '~/utils/util'
+import { apiFetch } from '~/utils/apiFetch'
 import type { Client } from '~/utils/types'
 
 export interface ClientServiceOptions {
@@ -26,7 +27,7 @@ export default function clientService({ apiUrl }: ClientServiceOptions): ClientS
       if (status != null && status != '') {
         base += `&status=${status}`
       }
-      return await $fetch(base, {
+      return await apiFetch(base, {
         headers: {
           Authorization: 'Bearer ' + getTokenCookie().value?.token
         }
@@ -34,7 +35,7 @@ export default function clientService({ apiUrl }: ClientServiceOptions): ClientS
     },
 
     async add(client: Client): Promise<Client> {
-      return await $fetch(`${apiUrl}clients`, {
+      return await apiFetch(`${apiUrl}clients`, {
         headers: {
           Authorization: 'Bearer ' + getTokenCookie().value?.token
         },
@@ -44,7 +45,7 @@ export default function clientService({ apiUrl }: ClientServiceOptions): ClientS
     },
 
     async update(id: string, client: Client): Promise<Client> {
-      return await $fetch(`${apiUrl}clients/${id}`, {
+      return await apiFetch(`${apiUrl}clients/${id}`, {
         headers: {
           Authorization: 'Bearer ' + getTokenCookie().value?.token
         },
@@ -60,7 +61,7 @@ export default function clientService({ apiUrl }: ClientServiceOptions): ClientS
     },
 
     async delete(id: string): Promise<void> {
-      return await $fetch(`${apiUrl}clients/${id}`, {
+      return await apiFetch(`${apiUrl}clients/${id}`, {
         headers: {
           Authorization: 'Bearer ' + getTokenCookie().value?.token
         },
