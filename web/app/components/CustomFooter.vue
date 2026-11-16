@@ -8,7 +8,7 @@
     <UFooter>
       <template #left>
         <p class="text-sm text-muted">
-          EHS Solutions • EHS Orçamentos • © {{ new Date().getFullYear() }}
+          Orçamentos • Desenvolvido por EHS Solutions • © {{ new Date().getFullYear() }}
           <a href="/app/privacidade/" class="ml-2 text-primary hover:underline">{{ $t('privacyPolicy') }}</a>
         </p>
       </template>

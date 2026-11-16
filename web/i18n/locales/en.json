@@ -86,7 +86,8 @@
     "doneDescription": "Budgets that are finished or delivered.",
     "unknownClient": "Unknown client",
     "emptyColumn": "No cards in this column.",
-    "dragHint": "Drag and drop cards to update status."
+    "dragHint": "Drag and drop cards to update status.",
+    "invalidTransition": "This stage change is not allowed. Advance one column at a time."
   },
   "reminder": {
     "manage": "Organize deadlines, follow-ups and daily tasks in one view.",
@@ -314,7 +315,7 @@
   },
   "landingPage": {
     "badge": "EHS Solutions Platform",
-    "easyOrcamentos": "EHS Quotes",
+    "easyOrcamentos": "Budgets",
     "manageClients": "A product from EHS Solutions to manage clients, budgets, kanban and reminders in one place.",
     "dashboardSnapshot": "Operational snapshot",
     "kpiClients": "Active clients",

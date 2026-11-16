@@ -59,9 +59,7 @@ const subtotal = computed(() =>
   (budget.value?.items ?? []).reduce((acc, item) => acc + itemTotal(item.quantity, item.price), 0)
 )
 
-const shouldShowApprove = computed(() =>
-  budget.value?.status === 'DRAFT' || budget.value?.status === 'WAITING' || budget.value?.status === 'SEND'
-)
+const shouldShowApprove = computed(() => budget.value?.status === 'WAITING')
 
 const issuedAt = computed(() => {
   const formatter = new Intl.DateTimeFormat(undefined, {

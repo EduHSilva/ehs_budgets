@@ -3,6 +3,12 @@
 > Produto para prestadores de serviço: cliente → orçamento → envio → aprovação → kanban.
 > Plataforma (auth, roles, isolamento): `D:/Projetos/ehs_microservices/regras-negocio.md`.
 
+## Marca
+
+- Nome exibido na web: **Orçamentos** (título, PWA e menu). Identificadores internos
+  (`crm`, `BUDGETS`) não mudam.
+- O rodapé exibe "Orçamentos • Desenvolvido por EHS Solutions".
+
 ## Cliente
 
 - Todo cliente pertence ao usuário logado (isolamento por `user_id`).
@@ -17,8 +23,12 @@
   ser dele.
 - Status (`BudgetStatus`): `DRAFT`, `SEND`, `WAITING`, `APPROVED`, `WORKING`, `DONE`,
   `CANCEL`, `DENY`, `DELETED`.
-  - Hoje o `PUT` aceita **qualquer** status exceto `DELETED` (que retorna 400); não há
-    matriz de transições aplicada.
+  - Transições permitidas (validadas no `PUT`; fora da matriz → 400):
+    `DRAFT → SEND`; `SEND → WAITING`; `WAITING → APPROVED | DENY`;
+    `APPROVED → WORKING`; `WORKING → DONE`; qualquer status `→ CANCEL`.
+    `DELETED` só via `DELETE` (o `PUT` continua rejeitando).
+  - Manter o mesmo status é permitido (edição sem mudar de etapa). `DONE`, `DENY` e
+    `CANCEL` são finais: só aceitam `CANCEL` ou exclusão.
   - `?status=` inválido na listagem retorna 400.
 - Itens: descrição, quantidade e preço unitário. Subtotal = preço × quantidade;
   total do orçamento = soma dos subtotais. A edição substitui a lista de itens.
@@ -32,10 +42,13 @@
 
 - Quadro/kanban: colunas `news` (`APPROVED`), `working` (`WORKING`) e `done` (`DONE`).
   `DRAFT`, `SEND`, `WAITING`, `CANCEL` e `DENY` não aparecem no quadro.
-- Aprovação do orçamento = `PUT` com `status=APPROVED`.
-- Dashboard: total de clientes, serviços pendentes (`APPROVED`), serviços em andamento
-  (`WORKING`) e total recebido (soma dos itens de orçamentos `DONE`) — tudo do usuário
-  do token.
+  - O arrasto só avança uma coluna por vez (`APPROVED → WORKING → DONE`); mover para
+    trás é bloqueado no cliente (o backend também rejeita com 400).
+- Aprovação do orçamento = `PUT` com `status=APPROVED` a partir de `WAITING` (o botão
+  "Aprovar" só aparece nesse status).
+- Dashboard: total de clientes, serviços pendentes (`APPROVED` = aprovados pelo cliente e
+  ainda sem execução), serviços em andamento (`WORKING`) e total recebido (soma dos itens
+  de orçamentos `DONE`) — tudo do usuário do token.
 
 ## Documento
 

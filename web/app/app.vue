@@ -4,13 +4,13 @@ import CustomHeader from '~/components/CustomHeader.vue'
 const appBase = useRuntimeConfig().app.baseURL
 
 useHead({
-  titleTemplate: title => (title ? `${title} · EHS Orçamentos` : 'EHS Orçamentos — EHS Solutions'),
+  titleTemplate: title => (title ? `${title} · Orçamentos` : 'Orçamentos — EHS Solutions'),
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
     { name: 'theme-color', content: '#4F46E5' },
     { name: 'apple-mobile-web-app-capable', content: 'yes' },
     { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
-    { name: 'apple-mobile-web-app-title', content: 'EHS Orçamentos' },
+    { name: 'apple-mobile-web-app-title', content: 'Orçamentos' },
     { name: 'google-signin-client_id', content: '955111681226-htvif7bd6os7fd84jl4ucae21fh0phh3.apps.googleusercontent.com' }
 
   ],
@@ -24,7 +24,7 @@ useHead({
   }
 })
 
-const title = 'EHS Orçamentos — EHS Solutions'
+const title = 'Orçamentos — EHS Solutions'
 const description = 'Plataforma da EHS Solutions para orçamentos, clientes, kanban e lembretes.'
 
 useSeoMeta({
@@ -41,7 +41,7 @@ useSeoMeta({
     <NuxtPage />
     <footer class="border-t border-default px-4 py-3 text-sm text-muted">
       <div class="flex flex-wrap items-center justify-between gap-2">
-        <span>EHS Solutions • EHS Orçamentos • © {{ new Date().getFullYear() }}</span>
+        <span>Orçamentos • Desenvolvido por EHS Solutions • © {{ new Date().getFullYear() }}</span>
         <a href="/app/privacidade/" class="text-primary hover:underline">{{ $t('privacyPolicy') }}</a>
       </div>
     </footer>

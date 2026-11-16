@@ -86,7 +86,8 @@
     "doneDescription": "Orçamentos finalizados ou entregues.",
     "unknownClient": "Cliente não identificado",
     "emptyColumn": "Sem cards nesta coluna.",
-    "dragHint": "Arraste e solte os cards para atualizar o status."
+    "dragHint": "Arraste e solte os cards para atualizar o status.",
+    "invalidTransition": "Esta mudança de etapa não é permitida. Avance uma coluna por vez."
   },
   "reminder": {
     "manage": "Organize prazos, follow-ups e tarefas do dia em uma visão única.",
@@ -314,7 +315,7 @@
   },
   "landingPage": {
     "badge": "Plataforma EHS Solutions",
-    "easyOrcamentos": "EHS Orçamentos",
+    "easyOrcamentos": "Orçamentos",
     "manageClients": "Produto da plataforma EHS Solutions para gerenciar clientes, orçamentos, kanban e lembretes em um só lugar.",
     "dashboardSnapshot": "Resumo operacional",
     "kpiClients": "Clientes ativos",

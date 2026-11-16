@@ -29,7 +29,7 @@ const handleLogout = () => {
             EHS Solutions
           </p>
           <p class="font-title text-sm font-bold md:text-base">
-            EHS Orçamentos
+            Orçamentos
           </p>
         </div>
       </NuxtLink>

@@ -30,6 +30,17 @@ watchEffect(() => {
     done.value = data.value.data.done ?? []
   }
 })
+// Espelha a matriz do backend: o kanban só avança uma etapa por vez.
+const NEXT_STATUS: Record<string, string[]> = {
+  APPROVED: ['WORKING'],
+  WORKING: ['DONE']
+}
+
+function isAllowedMove(from?: string, to?: string) {
+  if (!from || !to) return false
+  return from === to || (NEXT_STATUS[from] ?? []).includes(to)
+}
+
 async function handleKanbanChange(
   evt: DragChangeEvent<Budget>,
   status: Budget['status']
@@ -41,6 +52,18 @@ async function handleKanbanChange(
   try {
     if (evt.added) {
       const budget = evt.added.element
+
+      if (!isAllowedMove(budget.status, status)) {
+        toast.add({
+          title: $t('attention'),
+          description: $t('kanban.invalidTransition'),
+          icon: 'i-lucide-info',
+          color: 'warning'
+        })
+        await refresh()
+        return
+      }
+
       budget.status = status
       budget.kanbanOrder = evt.added.newIndex
       await update(budget)

@@ -61,8 +61,8 @@ export default defineNuxtConfig({
     registerType: 'autoUpdate',
     includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
     manifest: {
-      name: 'EHS Orçamentos — EHS Solutions',
-      short_name: 'EHS Orçamentos',
+      name: 'Orçamentos — EHS Solutions',
+      short_name: 'Orçamentos',
       description: 'Plataforma da EHS Solutions para orçamentos, clientes, kanban e lembretes.',
       theme_color: '#4F46E5',
       background_color: '#FAFAFA',
