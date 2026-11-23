@@ -8,11 +8,7 @@ useHead({
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
     { name: 'theme-color', content: '#4F46E5' },
-    { name: 'apple-mobile-web-app-capable', content: 'yes' },
-    { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
-    { name: 'apple-mobile-web-app-title', content: 'Orçamentos' },
     { name: 'google-signin-client_id', content: '955111681226-htvif7bd6os7fd84jl4ucae21fh0phh3.apps.googleusercontent.com' }
-
   ],
   link: [
     { rel: 'icon', type: 'image/svg+xml', href: `${appBase}favicon.svg` },

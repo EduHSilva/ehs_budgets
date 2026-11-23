@@ -47,6 +47,8 @@
   "reminders": "Reminders",
   "settings": "Settings",
   "account": "Account",
+  "openMenu": "Open menu",
+  "closeMenu": "Close menu",
   "general": "General",
   "newClient": "Add client",
   "newService": "Add service",
