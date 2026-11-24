@@ -66,9 +66,9 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 
 <template>
   <div class="mx-auto grid min-h-[calc(100vh-12rem)] w-full max-w-6xl items-center gap-6 px-4 py-8 lg:grid-cols-2">
-    <UCard class="order-2 lg:order-1 bg-cards dark:bg-cards-dark">
+    <UCard class="ehs-card order-2 lg:order-1">
       <template #header>
-        <h2 class="font-title text-xl font-bold md:text-2xl">
+        <h2 class="ehs-section-title !text-[22px]">
           {{ $t('auth.registerPanelTitle') }}
         </h2>
       </template>
@@ -78,7 +78,7 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
       </p>
 
       <div class="mt-4 grid gap-3 sm:grid-cols-2">
-        <div class="rounded-lg border border-default p-3">
+        <div class="ehs-card-soft p-3">
           <p class="text-sm text-muted">
             {{ $t('auth.registerStatOne') }}
           </p>
@@ -86,7 +86,7 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
             5 min
           </p>
         </div>
-        <div class="rounded-lg border border-default p-3">
+        <div class="ehs-card-soft p-3">
           <p class="text-sm text-muted">
             {{ $t('auth.registerStatTwo') }}
           </p>

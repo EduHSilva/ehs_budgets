@@ -11,7 +11,7 @@
             {{ $t('landingPage.badge') }}
           </UBadge>
 
-          <h1 class="font-title text-3xl font-bold leading-tight md:text-5xl">
+          <h1 class="ehs-page-title !text-3xl !leading-tight md:!text-5xl">
             {{ $t('landingPage.easyOrcamentos') }}
           </h1>
           <p class="mt-4 max-w-xl text-base text-muted md:text-lg">
@@ -23,7 +23,7 @@
               :label="$t('landingPage.startFree')"
               icon="i-lucide-arrow-right"
               to="/auth/register"
-              class="bg-primary dark:bg-primary-dark"
+              class="ehs-btn-primary"
             />
             <UButton
               :label="$t('landingPage.viewDemo')"
@@ -35,7 +35,7 @@
           </div>
         </div>
 
-        <UCard class="border-default bg-cards dark:bg-cards-dark">
+        <UCard class="ehs-card">
           <template #header>
             <h3 class="text-base font-bold md:text-lg">
               {{ $t('landingPage.dashboardSnapshot') }}
@@ -43,7 +43,7 @@
           </template>
 
           <div class="grid grid-cols-2 gap-3">
-            <div class="rounded-lg border border-default p-3">
+            <div class="ehs-card-soft p-3">
               <p class="text-xs text-muted">
                 {{ $t('landingPage.kpiClients') }}
               </p>
@@ -51,7 +51,7 @@
                 132
               </p>
             </div>
-            <div class="rounded-lg border border-default p-3">
+            <div class="ehs-card-soft p-3">
               <p class="text-xs text-muted">
                 {{ $t('landingPage.kpiPipeline') }}
               </p>
@@ -59,7 +59,7 @@
                 R$ 48.500
               </p>
             </div>
-            <div class="rounded-lg border border-default p-3">
+            <div class="ehs-card-soft p-3">
               <p class="text-xs text-muted">
                 {{ $t('landingPage.kpiTasks') }}
               </p>
@@ -67,7 +67,7 @@
                 17
               </p>
             </div>
-            <div class="rounded-lg border border-default p-3">
+            <div class="ehs-card-soft p-3">
               <p class="text-xs text-muted">
                 {{ $t('landingPage.kpiConversion') }}
               </p>
@@ -85,7 +85,7 @@
       :description="$t('landingPage.featuresPlanning')"
     >
       <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <UCard class="bg-cards dark:bg-cards-dark">
+        <UCard class="ehs-card">
           <UIcon
             name="i-lucide-users"
             class="mb-3 size-5 text-primary"
@@ -98,7 +98,7 @@
           </p>
         </UCard>
 
-        <UCard class="bg-cards dark:bg-cards-dark">
+        <UCard class="ehs-card">
           <UIcon
             name="i-lucide-kanban"
             class="mb-3 size-5 text-primary"
@@ -111,7 +111,7 @@
           </p>
         </UCard>
 
-        <UCard class="bg-cards dark:bg-cards-dark">
+        <UCard class="ehs-card">
           <UIcon
             name="i-lucide-bell-dot"
             class="mb-3 size-5 text-primary"
@@ -124,7 +124,7 @@
           </p>
         </UCard>
 
-        <UCard class="bg-cards dark:bg-cards-dark">
+        <UCard class="ehs-card">
           <UIcon
             name="i-lucide-layout-dashboard"
             class="mb-3 size-5 text-primary"
@@ -144,7 +144,7 @@
       :description="$t('landingPage.howItWorksDescription')"
     >
       <div class="grid gap-4 md:grid-cols-3">
-        <UCard class="bg-cards dark:bg-cards-dark">
+        <UCard class="ehs-card">
           <UBadge
             color="neutral"
             variant="subtle"
@@ -159,7 +159,7 @@
           </p>
         </UCard>
 
-        <UCard class="bg-cards dark:bg-cards-dark">
+        <UCard class="ehs-card">
           <UBadge
             color="neutral"
             variant="subtle"
@@ -174,7 +174,7 @@
           </p>
         </UCard>
 
-        <UCard class="bg-cards dark:bg-cards-dark">
+        <UCard class="ehs-card">
           <UBadge
             color="neutral"
             variant="subtle"
@@ -199,7 +199,7 @@
           label: $t('landingPage.startFree'),
           to: '/auth/register',
           trailingIcon: 'i-lucide-arrow-right',
-          class: 'bg-primary dark:bg-primary-dark'
+          class: 'ehs-btn-primary'
         }, {
           label: $t('landingPage.aboutMore'),
           to: '/auth/login',
@@ -207,7 +207,7 @@
           color: 'neutral',
           variant: 'outline'
         }]"
-        :ui="{ container: 'bg-cards dark:bg-cards-dark' }"
+        :ui="{ container: 'ehs-card' }"
       />
     </UPageSection>
   </div>

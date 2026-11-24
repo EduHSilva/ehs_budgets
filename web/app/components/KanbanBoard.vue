@@ -10,21 +10,23 @@ const props = defineProps<{
   color: 'orange' | 'blue' | 'green'
 }>()
 
+// Cor só na exceção: coluna inicial usa o accent, "em andamento" usa warning e
+// "concluído" usa success — sempre tokens semânticos, nunca cor crua.
 const colorMap = {
   orange: {
-    dot: 'bg-amber-500',
-    ring: 'ring-amber-500/20',
-    border: 'border-amber-500/20'
+    dot: 'bg-primary',
+    ring: 'ring-primary/15',
+    border: 'border-primary/20'
   },
   blue: {
-    dot: 'bg-sky-500',
-    ring: 'ring-sky-500/20',
-    border: 'border-sky-500/20'
+    dot: 'bg-warning',
+    ring: 'ring-warning/15',
+    border: 'border-warning/20'
   },
   green: {
-    dot: 'bg-emerald-500',
-    ring: 'ring-emerald-500/20',
-    border: 'border-emerald-500/20'
+    dot: 'bg-success',
+    ring: 'ring-success/15',
+    border: 'border-success/20'
   }
 }
 
@@ -35,7 +37,7 @@ function budgetValue(item: Budget) {
 
 <template>
   <div
-    class="flex h-[calc(100vh-16rem)] min-h-[34rem] flex-col rounded-xl border border-default bg-cards dark:bg-cards-dark shadow-sm"
+    class="ehs-card flex h-[calc(100vh-16rem)] min-h-[34rem] flex-col"
     :class="[
       colorMap[color].border,
       colorMap[color].ring,
@@ -48,7 +50,7 @@ function budgetValue(item: Budget) {
           class="h-2.5 w-2.5 rounded-full"
           :class="colorMap[color].dot"
         />
-        <h3 class="font-semibold">
+        <h3 class="ehs-section-title">
           {{ props.title }}
         </h3>
         <span class="ml-auto text-sm text-muted">
@@ -73,7 +75,7 @@ function budgetValue(item: Budget) {
         <div
           v-for="item in list"
           :key="item.id"
-          class="cursor-grab rounded-lg border border-default bg-white/90 p-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:cursor-grabbing dark:bg-gray-900/50"
+          class="cursor-grab rounded-xl border border-default bg-default p-3 shadow-[0_1px_2px_rgba(38,34,28,.05)] transition hover:-translate-y-0.5 hover:border-[var(--ui-ehs-border-strong)] hover:shadow-[var(--ui-ehs-shadow-card)] active:cursor-grabbing"
         >
           <div class="flex items-start justify-between gap-2">
             <h4 class="text-sm font-semibold leading-5">
@@ -115,7 +117,7 @@ function budgetValue(item: Budget) {
         <template #footer>
           <div
             v-if="!list.length"
-            class="rounded-lg border border-dashed border-default p-4 text-center text-sm text-muted"
+            class="ehs-empty rounded-lg p-4 text-center text-sm text-muted"
           >
             {{ $t('kanban.emptyColumn') }}
           </div>

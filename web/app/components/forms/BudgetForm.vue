@@ -215,13 +215,13 @@ function onSubmit(event: FormSubmitEvent<Schema>) {
 
       <UButton
         icon="i-lucide-plus"
-        class="bg-primary dark:bg-primary-dark"
+        class="ehs-btn-primary"
         @click="state.items.push({ name: '', description: '', quantity: 1, price: 0 })"
       >
         {{ $t('budget.addItem') }}
       </UButton>
 
-      <div class="flex justify-end text-sm text-gray-300 mt-2">
+      <div class="mt-2 flex justify-end text-sm text-muted">
         {{ $t('budget.subtotal') }}:
         <span class="ml-1 font-semibold">
           {{ formatCurrency(

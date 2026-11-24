@@ -43,12 +43,12 @@ const sessions = [
   <div class="flex min-h-screen overflow-hidden">
     <SideBar active="settings account" />
 
-    <div class="flex-1 p-4 md:p-10 md:pr-12">
+    <div class="flex-1 min-w-0 p-4 md:p-8 md:pr-10">
       <div class="mb-6">
-        <h1 class="font-bold font-title text-2xl md:text-3xl">
+        <h1 class="ehs-page-title">
           {{ $t('accountPage.title') }}
         </h1>
-        <p class="mt-1 max-w-2xl text-sm text-muted">
+        <p class="mt-1.5 max-w-2xl text-sm text-muted">
           {{ $t('accountPage.description') }}
         </p>
       </div>
@@ -56,7 +56,7 @@ const sessions = [
       <div class="grid gap-6 xl:grid-cols-3">
         <UCard>
           <template #header>
-            <h2 class="font-semibold text-lg">
+            <h2 class="ehs-section-title">
               {{ $t('accountPage.profileCard') }}
             </h2>
           </template>
@@ -105,7 +105,7 @@ const sessions = [
 
         <UCard class="xl:col-span-2">
           <template #header>
-            <h2 class="font-semibold text-lg">
+            <h2 class="ehs-section-title">
               {{ $t('accountPage.personalInfo') }}
             </h2>
           </template>
@@ -166,7 +166,7 @@ const sessions = [
       <div class="grid gap-6 xl:grid-cols-2 mt-6">
         <UCard>
           <template #header>
-            <h2 class="font-semibold text-lg">
+            <h2 class="ehs-section-title">
               {{ $t('accountPage.communicationTitle') }}
             </h2>
           </template>
@@ -212,7 +212,7 @@ const sessions = [
 
         <UCard>
           <template #header>
-            <h2 class="font-semibold text-lg">
+            <h2 class="ehs-section-title">
               {{ $t('accountPage.activeSessions') }}
             </h2>
           </template>

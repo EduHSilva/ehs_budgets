@@ -137,13 +137,13 @@ const refreshEvent = () => {
   <div class="flex min-h-screen overflow-hidden">
     <SideBar active="kanban" />
 
-    <div class="flex-1 p-4 md:p-10 md:pr-12">
+    <div class="flex-1 min-w-0 p-4 md:p-8 md:pr-10">
       <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 class="text-2xl font-bold font-title md:text-3xl">
+          <h1 class="ehs-page-title">
             {{ $t('kanban.title') }}
           </h1>
-          <p class="mt-1 max-w-2xl text-sm text-muted">
+          <p class="mt-1.5 max-w-2xl text-sm text-muted">
             {{ $t('kanban.manage') }}
           </p>
         </div>

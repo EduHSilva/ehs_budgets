@@ -101,7 +101,7 @@ defineExpose({
           type="submit"
           block
           :loading="loading"
-          class="bg-primary dark:bg-primary-dark"
+          class="ehs-btn-primary"
         >
           {{ mode === 'edit' ? $t('update') : $t('save') }}
         </UButton>

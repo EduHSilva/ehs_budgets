@@ -1,30 +1,304 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-:root {
-  font-family: "Inter", sans-serif;
-  padding: 0;
-  margin: 0;
+/* ============================================================
+   Fundação EHS — "papel quente + headings serifados".
+   Accent do Orçamentos (ehs_crm): azul confiança.
+   Espelha os tokens de D:\Projetos\ehs_study\web\src\styles\global.css.
+   ============================================================ */
+@theme static {
+  /* Tipografia: Fraunces nos títulos (tracking negativo), Inter no corpo. */
+  --font-heading: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-title: 'Fraunces', Georgia, 'Times New Roman', serif;
+
+  /* Tokens da sidebar expostos ao Tailwind (text-sidebar-*, bg-sidebar-*). */
+  --color-sidebar: var(--ui-ehs-sidebar);
+  --color-sidebar-top: var(--ui-ehs-sidebar-top);
+  --color-sidebar-text: var(--ui-ehs-sidebar-text);
+  --color-sidebar-muted: var(--ui-ehs-sidebar-muted);
+  --color-sidebar-accent: var(--ui-ehs-sidebar-accent);
+
+  /* Escala do accent "azul confiança" (app/utils/colors.ts). O Nuxt UI lê
+     `ui.colors.primary = 'brand'` e resolve cada shade por estas variáveis. */
+  --color-brand-50: #F2F6FC;
+  --color-brand-100: #E3EBF6;
+  --color-brand-200: #C8D8EE;
+  --color-brand-300: #A6C0E5;
+  --color-brand-400: #93B8EE;
+  --color-brand-500: #2F5FA8;
+  --color-brand-600: #244A85;
+  --color-brand-700: #1C3A69;
+  --color-brand-800: #162E53;
+  --color-brand-900: #0D1B31;
+  --color-brand-950: #081320;
+
+  /* Alias legados mantidos para não quebrar componentes antigos. */
+  --color-dark: var(--ui-ehs-surface);
+  --color-text-dark: var(--ui-ehs-text);
+  --color-cards-dark: var(--ui-ehs-surface);
+  --color-light: var(--ui-ehs-bg);
+  --color-text: var(--ui-ehs-text);
+  --color-cards: var(--ui-ehs-surface);
+  --color-primary-dark: var(--ui-ehs-primary-dark);
+  --color-secondary-dark: var(--ui-ehs-primary-dark);
+  --color-secondary: var(--ui-ehs-primary);
+  --color-accent: var(--ui-ehs-primary);
 }
 
-/*--
-/ --color = class bg-*
- */
-@theme static {
-  --font-title: 'Outfit', sans-serif;
-  --font-default: 'Inter', sans-serif;
+/* Tokens semânticos (só estes nos componentes). */
+:root {
+  --ui-ehs-bg: #F5F2EA;
+  --ui-ehs-surface: #FFFDF8;
+  --ui-ehs-surface-2: #EFE9DC;
+  --ui-ehs-text: #26221C;
+  --ui-ehs-text-muted: #6B6459;
+  --ui-ehs-text-subtle: #9A9284;
+  --ui-ehs-border: #E7E0D3;
+  --ui-ehs-border-strong: #D8CFBF;
 
-  /* EHS brand palette — keep in sync with the other ehs_* web apps. */
-  --color-dark: #18181B;
-  --color-text-dark: #FAFAFA;
-  --color-cards-dark: #27272A;
-  --color-primary-dark: #818CF8;
-  --color-secondary-dark: #A78BFA;
+  --ui-ehs-primary: #2F5FA8;
+  --ui-ehs-primary-strong: #244A85;
+  --ui-ehs-primary-soft: #E3EBF6;
+  --ui-ehs-primary-dark: #93B8EE;
+  --ui-ehs-on-primary: #FFFFFF;
 
-  --color-light: #FAFAFA;
-  --color-text: #3F3F46;
-  --color-cards: #FFFFFF;
-  --color-primary: #4F46E5;
-  --color-secondary: #7C3AED;
+  --ui-ehs-success: #2F7D5B;
+  --ui-ehs-success-soft: #E5F2EA;
+  --ui-ehs-danger: #B34A33;
+  --ui-ehs-danger-soft: #FAE8E1;
+  --ui-ehs-warning: #A9761C;
+  --ui-ehs-warning-soft: #F8EFD8;
+
+  --ui-ehs-sidebar: #1A2621;
+  --ui-ehs-sidebar-top: #22332B;
+  --ui-ehs-sidebar-text: #E9E5D9;
+  --ui-ehs-sidebar-muted: #9DABA2;
+  --ui-ehs-sidebar-accent: #9EC3F2;
+
+  --ui-ehs-shadow-card: 0 1px 2px rgba(38, 34, 28, .04), 0 10px 30px rgba(38, 34, 28, .07);
+  --ui-ehs-shadow-pop: 0 24px 60px -28px rgba(32, 28, 18, .45);
+
+  /* Nuxt UI: neutros quentes no lugar do cinza do framework. */
+  --ui-radius: 0.625rem;
+  --ui-container: 80rem;
+  --ui-text-dimmed: var(--ui-ehs-text-subtle);
+  --ui-text-muted: var(--ui-ehs-text-muted);
+  --ui-text-toned: var(--ui-ehs-text-muted);
+  --ui-text: var(--ui-ehs-text);
+  --ui-text-highlighted: var(--ui-ehs-text);
+  --ui-bg: var(--ui-ehs-bg);
+  --ui-bg-muted: var(--ui-ehs-surface-2);
+  --ui-bg-elevated: var(--ui-ehs-surface-2);
+  --ui-bg-accented: var(--ui-ehs-border-strong);
+  --ui-border: var(--ui-ehs-border);
+  --ui-border-muted: var(--ui-ehs-border);
+  --ui-border-accented: var(--ui-ehs-border-strong);
+  color-scheme: light;
+}
+
+.dark {
+  --ui-ehs-bg: #16170F;
+  --ui-ehs-surface: #1E1F18;
+  --ui-ehs-surface-2: #262720;
+  --ui-ehs-text: #F1ECDF;
+  --ui-ehs-text-muted: #B6AFA0;
+  --ui-ehs-text-subtle: #8C8576;
+  --ui-ehs-border: #2F3027;
+  --ui-ehs-border-strong: #43443A;
+
+  --ui-ehs-primary: #93B8EE;
+  --ui-ehs-primary-strong: #B5D0F6;
+  --ui-ehs-primary-soft: #1E2C42;
+  --ui-ehs-primary-dark: #B5D0F6;
+  --ui-ehs-on-primary: #0D1626;
+
+  --ui-ehs-success: #8AD3A6;
+  --ui-ehs-success-soft: #1D3326;
+  --ui-ehs-danger: #EB9C84;
+  --ui-ehs-danger-soft: #3B241C;
+  --ui-ehs-warning: #E3B96B;
+  --ui-ehs-warning-soft: #3A2F1A;
+
+  --ui-ehs-sidebar: #0D120F;
+  --ui-ehs-sidebar-top: #131B16;
+  --ui-ehs-sidebar-text: #ECE8DC;
+  --ui-ehs-sidebar-muted: #93A096;
+
+  --ui-ehs-shadow-card: 0 12px 32px rgba(0, 0, 0, .35);
+  --ui-ehs-shadow-pop: 0 24px 60px -24px rgba(0, 0, 0, .65);
+
+  --ui-text-inverted: var(--ui-ehs-bg);
+  --ui-bg-inverted: var(--ui-ehs-surface-2);
+  --ui-border-inverted: var(--ui-ehs-border-strong);
+  color-scheme: dark;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+body {
+  margin: 0;
+  background: var(--ui-ehs-bg);
+  color: var(--ui-ehs-text);
+  font: 400 14px/1.55 var(--font-body);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+h1 { letter-spacing: -0.025em }
+h2 { letter-spacing: -0.02em }
+h3 { letter-spacing: -0.015em }
+
+::selection { background: var(--ui-ehs-primary-soft); color: var(--ui-ehs-text) }
+:focus-visible { outline-color: var(--ui-ehs-primary) }
+
+/* ============================================================
+   Componentes — mesma linguagem do ehs_study, com accent azul.
+   ============================================================ */
+@layer components {
+  /* Botões e inputs com 40px de altura (o raio vem de --ui-radius = 10px). */
+  button[data-slot="base"],
+  a[data-slot="base"],
+  label[data-slot="base"] {
+    min-height: 40px;
+  }
+
+  .ehs-card {
+    background: var(--ui-ehs-surface);
+    border: 1px solid var(--ui-ehs-border);
+    border-radius: 16px;
+    box-shadow: var(--ui-ehs-shadow-card);
+  }
+
+  .ehs-card-soft {
+    background: color-mix(in srgb, var(--ui-ehs-surface-2) 55%, var(--ui-ehs-surface));
+    border: 1px solid var(--ui-ehs-border);
+    border-radius: 14px;
+  }
+
+  .ehs-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--ui-ehs-border);
+    background: color-mix(in srgb, var(--ui-ehs-text) 6%, var(--ui-ehs-surface));
+    color: var(--ui-ehs-text-muted);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .ehs-tag-accent {
+    color: var(--ui-ehs-primary);
+    background: var(--ui-ehs-primary-soft);
+    border-color: color-mix(in srgb, var(--ui-ehs-primary) 22%, transparent);
+  }
+
+  .ehs-tag-success {
+    color: var(--ui-ehs-success);
+    background: var(--ui-ehs-success-soft);
+    border-color: color-mix(in srgb, var(--ui-ehs-success) 24%, transparent);
+  }
+
+  .ehs-tag-warning {
+    color: var(--ui-ehs-warning);
+    background: var(--ui-ehs-warning-soft);
+    border-color: color-mix(in srgb, var(--ui-ehs-warning) 24%, transparent);
+  }
+
+  .ehs-tag-danger {
+    color: var(--ui-ehs-danger);
+    background: var(--ui-ehs-danger-soft);
+    border-color: color-mix(in srgb, var(--ui-ehs-danger) 24%, transparent);
+  }
+
+  .ehs-page-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.7rem, 2vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.14;
+  }
+
+  .ehs-section-title {
+    font-family: var(--font-heading);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--ui-ehs-text);
+  }
+
+  .ehs-kpi {
+    display: grid;
+    gap: 2px;
+  }
+
+  .ehs-kpi-value {
+    font-family: var(--font-heading);
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+    color: var(--ui-ehs-text);
+  }
+
+  .ehs-empty {
+    border: 1px dashed var(--ui-ehs-border-strong);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--ui-ehs-bg) 55%, var(--ui-ehs-surface));
+    color: var(--ui-ehs-text-muted);
+  }
+
+  /* Sidebar escura nos dois temas: gradiente vertical + item ativo com barra de accent. */
+  .ehs-sidebar {
+    background: linear-gradient(176deg, var(--ui-ehs-sidebar-top), var(--ui-ehs-sidebar) 62%);
+    color: var(--ui-ehs-sidebar-text);
+    border-right: 1px solid rgb(255 255 255 / 0.05);
+  }
+
+  .ehs-nav-active {
+    background: linear-gradient(90deg, color-mix(in srgb, var(--ui-ehs-sidebar-accent) 20%, transparent), color-mix(in srgb, var(--ui-ehs-sidebar-accent) 6%, transparent));
+    box-shadow: inset 2px 0 0 var(--ui-ehs-sidebar-accent);
+    color: #FFFFFF;
+  }
+
+  .ehs-nav-item {
+    color: var(--ui-ehs-sidebar-muted);
+    border-radius: 10px;
+    transition: background .15s, color .15s;
+  }
+
+  .ehs-nav-item:hover {
+    background: rgb(255 255 255 / 0.06);
+    color: #FFFFFF;
+  }
+
+  /* Botão preenchido do accent, com o texto certo nos dois temas. */
+  .ehs-btn-primary {
+    background: var(--ui-ehs-primary);
+    color: var(--ui-ehs-on-primary);
+    border-color: transparent;
+  }
+
+  .ehs-btn-primary:hover:not(:disabled) {
+    background: var(--ui-ehs-primary-strong);
+    color: var(--ui-ehs-on-primary);
+  }
+
+  /* Marca no header: accent sobre gradiente da sidebar. */
+  .ehs-brand-icon {
+    background: linear-gradient(140deg, var(--ui-ehs-sidebar-accent), var(--ui-ehs-primary-strong));
+    color: var(--ui-ehs-on-primary);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.24), 0 8px 18px -10px rgb(0 0 0 / 0.45);
+  }
 }

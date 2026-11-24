@@ -148,9 +148,9 @@ async function login(email: string | null, password: string | null, tokenGmail: 
 
 <template>
   <div class="mx-auto grid min-h-[calc(100vh-12rem)] w-full max-w-6xl items-center gap-6 px-4 py-8 lg:grid-cols-2">
-    <UCard class="order-2 lg:order-1 bg-cards dark:bg-cards-dark">
+    <UCard class="ehs-card order-2 lg:order-1">
       <template #header>
-        <h2 class="font-title text-xl font-bold md:text-2xl">
+        <h2 class="ehs-section-title !text-[22px]">
           {{ $t('auth.loginPanelTitle') }}
         </h2>
       </template>
@@ -160,7 +160,7 @@ async function login(email: string | null, password: string | null, tokenGmail: 
       </p>
 
       <div class="mt-4 space-y-3">
-        <div class="rounded-lg border border-default p-3">
+        <div class="ehs-card-soft p-3">
           <p class="text-sm font-medium">
             {{ $t('auth.panelPointOneTitle') }}
           </p>
@@ -168,7 +168,7 @@ async function login(email: string | null, password: string | null, tokenGmail: 
             {{ $t('auth.panelPointOneDescription') }}
           </p>
         </div>
-        <div class="rounded-lg border border-default p-3">
+        <div class="ehs-card-soft p-3">
           <p class="text-sm font-medium">
             {{ $t('auth.panelPointTwoTitle') }}
           </p>
@@ -176,7 +176,7 @@ async function login(email: string | null, password: string | null, tokenGmail: 
             {{ $t('auth.panelPointTwoDescription') }}
           </p>
         </div>
-        <div class="rounded-lg border border-default p-3">
+        <div class="ehs-card-soft p-3">
           <p class="text-sm font-medium">
             {{ $t('auth.panelPointThreeTitle') }}
           </p>

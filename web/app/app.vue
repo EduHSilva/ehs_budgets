@@ -7,7 +7,7 @@ useHead({
   titleTemplate: title => (title ? `${title} · Orçamentos` : 'Orçamentos — EHS Solutions'),
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-    { name: 'theme-color', content: '#4F46E5' },
+    { name: 'theme-color', content: '#2F5FA8' },
     { name: 'google-signin-client_id', content: '955111681226-htvif7bd6os7fd84jl4ucae21fh0phh3.apps.googleusercontent.com' }
   ],
   link: [
@@ -32,10 +32,10 @@ useSeoMeta({
 </script>
 
 <template>
-  <div>
+  <div class="min-h-screen bg-default text-default">
     <CustomHeader />
     <NuxtPage />
-    <footer class="border-t border-default px-4 py-3 text-sm text-muted">
+    <footer class="border-t border-default bg-elevated/40 px-4 py-3 text-sm text-muted">
       <div class="flex flex-wrap items-center justify-between gap-2">
         <span>Orçamentos • Desenvolvido por EHS Solutions • © {{ new Date().getFullYear() }}</span>
         <a href="/app/privacidade/" class="text-primary hover:underline">{{ $t('privacyPolicy') }}</a>

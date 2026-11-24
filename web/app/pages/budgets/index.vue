@@ -230,13 +230,13 @@ function deleteBudget(id: string) {
   <div class="flex min-h-screen overflow-hidden">
     <SideBar active="budgets" />
 
-    <div class="flex-1 p-4 md:p-10 md:pr-12">
+    <div class="flex-1 min-w-0 p-4 md:p-8 md:pr-10">
       <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 class="font-bold font-title text-2xl md:text-3xl">
+          <h1 class="ehs-page-title">
             {{ $t('budgets') }}
           </h1>
-          <p class="mt-1 max-w-2xl text-sm text-muted">
+          <p class="mt-1.5 max-w-2xl text-sm text-muted">
             {{ $t('budget.manage') }}
           </p>
         </div>
@@ -259,7 +259,7 @@ function deleteBudget(id: string) {
           <UButton
             :label="$t('newBudget')"
             icon="i-lucide-plus"
-            class="bg-primary dark:bg-primary-dark"
+            class="ehs-btn-primary"
             @click="showModal"
           />
         </div>
@@ -330,7 +330,7 @@ function deleteBudget(id: string) {
           <template #footer>
             <UButton
               :label="$t('newBudget')"
-              class="bg-primary dark:bg-primary-dark"
+              class="ehs-btn-primary"
               @click="showModal"
             />
           </template>

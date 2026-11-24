@@ -34,7 +34,7 @@ const isActive = path => route.path === path || route.path.startsWith(`${path}/`
 </script>
 
 <template>
-  <header class="print:hidden border-b border-default bg-default/60 px-3 py-2 backdrop-blur">
+  <header class="print:hidden border-b border-default bg-default/85 px-3 py-2 backdrop-blur">
     <div class="mx-auto flex w-full max-w-7xl items-center justify-between gap-2">
       <div class="flex min-w-0 items-center gap-1">
         <UButton
@@ -53,7 +53,7 @@ const isActive = path => route.path === path || route.path.startsWith(`${path}/`
           class="flex min-w-0 items-center gap-2"
           :to="user ? '/dashboard' : '/'"
         >
-          <div class="flex size-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-sm">
+          <div class="ehs-brand-icon flex size-8 shrink-0 items-center justify-center rounded-lg shadow-sm">
             <UIcon
               name="i-lucide-shield-check"
               class="size-4"
@@ -63,7 +63,7 @@ const isActive = path => route.path === path || route.path.startsWith(`${path}/`
             <p class="hidden text-[11px] font-medium uppercase tracking-wide text-muted min-[400px]:block">
               EHS Solutions
             </p>
-            <p class="truncate font-title text-sm font-bold md:text-base">
+            <p class="truncate font-heading text-base font-semibold tracking-[-0.01em] md:text-lg">
               Orçamentos
             </p>
           </div>
@@ -92,7 +92,7 @@ const isActive = path => route.path === path || route.path.startsWith(`${path}/`
         <template v-if="!user">
           <UButton
             to="/auth/login"
-            class="bg-primary dark:bg-primary-dark"
+            class="ehs-btn-primary"
             size="sm"
           >
             {{ $t('login') }}
@@ -109,7 +109,7 @@ const isActive = path => route.path === path || route.path.startsWith(`${path}/`
 
         <UButton
           v-else
-          class="bg-primary dark:bg-primary-dark"
+          class="ehs-btn-primary"
           size="sm"
           icon="i-lucide-log-out"
           :aria-label="$t('logout')"
@@ -127,14 +127,14 @@ const isActive = path => route.path === path || route.path.startsWith(`${path}/`
       id="mobile-nav"
       class="mx-auto mt-2 w-full max-w-7xl lg:hidden"
     >
-      <nav class="rounded-lg border border-default bg-cards p-1 dark:bg-cards-dark">
+      <nav class="ehs-card p-1">
         <NuxtLink
           v-for="item in navigation"
           :key="item.to"
           :to="item.to"
-          class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium"
+          class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors"
           :class="isActive(item.to)
-            ? 'bg-primary/10 text-primary dark:text-primary-dark'
+            ? 'bg-primary/10 text-primary'
             : 'text-default hover:bg-elevated/60'"
         >
           <UIcon

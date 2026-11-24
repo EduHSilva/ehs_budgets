@@ -333,7 +333,7 @@ async function handleApprove() {
     <div class="mx-auto w-full max-w-6xl flex-1 p-4 md:p-10">
       <div class="mb-6 flex flex-wrap items-start justify-between gap-3 print:mb-4">
         <div>
-          <h1 class="font-title text-2xl font-bold md:text-3xl">
+          <h1 class="ehs-page-title">
             {{ budget?.title }}
           </h1>
           <p class="mt-1 text-sm text-muted">
@@ -379,15 +379,15 @@ async function handleApprove() {
 
       <div
         id="budget-pdf"
-        class="mx-auto max-w-[980px] rounded-xl border border-default bg-white p-4 text-text shadow-sm md:p-8 dark:bg-dark"
+        class="ehs-card mx-auto max-w-[980px] p-4 text-default md:p-8"
       >
-        <div class="mb-6 border-b border-default pb-4">
+        <div class="mb-6 border-b border-default pb-5">
           <div class="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <p class="text-xs uppercase tracking-[0.12em] text-muted dark:text-white">
+              <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">
                 {{ $t('budget.documentLabel') }}
               </p>
-              <h2 class="mt-2 font-title dark:text-white text-2xl font-bold">
+              <h2 class="mt-2 ehs-page-title !text-2xl">
                 {{ budget?.title }}
               </h2>
               <p class="mt-1 text-sm text-muted">
@@ -440,19 +440,19 @@ async function handleApprove() {
           <UCard class="xl:col-span-2">
             <template #header>
               <div class="flex items-center justify-between gap-2">
-                <h2 class="text-base font-bold md:text-lg dark:text-white">
+                <h2 class="ehs-section-title">
                   {{ $t('budget.previewTitle') }}
                 </h2>
               </div>
             </template>
 
-            <p class="mb-4 whitespace-pre-line text-sm text-muted dark:text-white">
+            <p class="mb-4 whitespace-pre-line text-sm text-muted">
               {{ budget?.description }}
             </p>
 
             <div
               v-if="!budget?.items?.length"
-              class="rounded-lg border border-dashed border-default p-4 text-sm text-muted dark:text-white"
+              class="ehs-empty p-4 text-sm"
             >
               {{ $t('budget.noItems') }}
             </div>
@@ -461,7 +461,7 @@ async function handleApprove() {
               v-else
               class="overflow-x-auto"
             >
-              <table class="w-full min-w-[680px] text-left text-sm dark:text-white">
+              <table class="w-full min-w-[680px] text-left text-sm">
                 <thead>
                   <tr class="border-b border-default">
                     <th class="py-2 pr-3 font-semibold">
@@ -510,13 +510,13 @@ async function handleApprove() {
 
           <UCard>
             <template #header>
-              <h2 class="text-base font-bold md:text-lg dark:text-white">
+              <h2 class="ehs-section-title">
                 {{ $t('budget.total') }}
               </h2>
             </template>
 
             <div class="space-y-3">
-              <div class="flex items-center justify-between text-sm dark:text-white">
+              <div class="flex items-center justify-between text-sm">
                 <span class="text-muted">{{ $t('budget.subtotal') }}</span>
                 <span class="font-medium">{{ formatCurrency(subtotal) }}</span>
               </div>
@@ -530,7 +530,7 @@ async function handleApprove() {
                 </UBadge>
               </div>
               <USeparator />
-              <div class="flex items-center justify-between dark:text-white">
+              <div class="flex items-center justify-between">
                 <span class="font-semibold">{{ $t('budget.total') }}</span>
                 <span class="text-xl font-bold">
                   {{ formatCurrency(budget?.total ?? subtotal) }}
@@ -543,24 +543,24 @@ async function handleApprove() {
         <div class="grid gap-6 xl:grid-cols-2">
           <UCard>
             <template #header>
-              <h2 class="text-base font-bold md:text-lg dark:text-white">
+              <h2 class="ehs-section-title">
                 {{ $t('budget.terms') }}
               </h2>
             </template>
 
-            <p class="whitespace-pre-line text-sm text-muted dark:text-white">
+            <p class="whitespace-pre-line text-sm text-muted">
               {{ budget?.terms || $t('budget.noTerms') }}
             </p>
           </UCard>
 
           <UCard>
             <template #header>
-              <h2 class="text-base font-bold md:text-lg dark:text-white">
+              <h2 class="ehs-section-title">
                 {{ $t('budget.observations') }}
               </h2>
             </template>
 
-            <p class="whitespace-pre-line text-sm text-muted dark:text-white">
+            <p class="whitespace-pre-line text-sm text-muted">
               {{ budget?.observations || $t('budget.noObservations') }}
             </p>
           </UCard>
