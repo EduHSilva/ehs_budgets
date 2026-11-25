@@ -121,19 +121,20 @@ async function login(email: string | null, password: string | null, tokenGmail: 
   try {
     const { $userService } = useNuxtApp()
     const data = await $userService.login(email, password, tokenGmail)
-    if (!data) {
+    // Sem token = 202: conta sem acesso ao app, link de confirmação enviado.
+    if (!data?.data?.token) {
       toast.add({
-        title: $t('attention'),
-        description: $t('errors.loginError'),
-        icon: 'i-lucide-alert-triangle',
-        color: 'error'
+        title: $t('accessEmailSentTitle'),
+        description: data?.message || $t('accessEmailSent'),
+        icon: 'i-lucide-mail-check',
+        color: 'info'
       })
-    } else {
-      const token = getTokenCookie()
-      token.value = { token: data.data.token }
-      useUser().value = data.data
-      navigateTo('/dashboard')
+      return
     }
+    const token = getTokenCookie()
+    token.value = { token: data.data.token }
+    useUser().value = data.data
+    navigateTo('/dashboard')
   } catch (e) {
     console.error(e)
     toast.add({

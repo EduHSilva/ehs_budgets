@@ -36,9 +36,11 @@
     "registerStatTwo": "Front-focused validation",
     "registerHintTitle": "Productivity-oriented flow",
     "registerHintDescription": "After sign up, you can immediately create clients and budgets.",
-    "registerSuccess": "Registration completed successfully. Sign in to continue."
+    "registerSuccess": "If the details are correct, we sent the access instructions by email. If you already have an account, sign in to request the new access."
   },
   "attention": "Attention",
+  "accessEmailSentTitle": "Check your email",
+  "accessEmailSent": "If the details are correct, we'll send the access instructions by email. If you already had an account, use the link to unlock access.",
   "success": "Success",
   "dashboard": "Dashboard",
   "clients": "Clients",

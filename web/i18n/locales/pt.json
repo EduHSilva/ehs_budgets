@@ -36,9 +36,11 @@
     "registerStatTwo": "Foco em front para validação",
     "registerHintTitle": "Fluxo orientado a produtividade",
     "registerHintDescription": "Depois do cadastro, você já pode criar clientes e gerar orçamentos.",
-    "registerSuccess": "Cadastro realizado com sucesso. Faça login para continuar."
+    "registerSuccess": "Se os dados estiverem corretos, enviamos as instruções de acesso por e-mail. Se você já tem conta, faça login para solicitar o novo acesso."
   },
   "attention": "Atenção",
+  "accessEmailSentTitle": "Verifique seu e-mail",
+  "accessEmailSent": "Se os dados estiverem corretos, enviaremos as instruções de acesso por e-mail. Se você já tinha conta, use o link para liberar o acesso.",
   "success": "Sucesso",
   "dashboard": "Dashboard",
   "clients": "Clientes",
