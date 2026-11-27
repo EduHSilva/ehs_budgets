@@ -34,23 +34,14 @@ const items: NavigationMenuItem[][] = [[{
 {
   label: $t('reminders'),
   to: '/reminders',
-  badge: '4',
   icon: 'i-lucide-bell-dot',
   active: props.active?.includes('reminders')
 },
 {
-  label: $t('settings'),
-  icon: 'i-lucide-settings',
-  defaultOpen: false,
-  children: [{
-    label: $t('general'),
-    to: '/settings/general',
-    active: props.active?.includes('settings')
-  }, {
-    label: $t('account'),
-    to: '/settings/account',
-    active: props.active?.includes('account')
-  }]
+  label: $t('account'),
+  to: '/settings/account',
+  icon: 'i-lucide-circle-user',
+  active: props.active?.includes('account')
 }]]
 
 // Sidebar escura nos dois temas (tokens ehs-sidebar-*); o item ativo ganha

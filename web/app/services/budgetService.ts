@@ -11,11 +11,17 @@ export interface BudgetService {
 
   add(budget: Budget): Promise<Budget>
 
-  update(id: string, budget: Budget): Promise<Budget>
+  update(id: string, budget: Budget): Promise<DefaultResponse<Budget>>
 
   delete(id: string): Promise<void>
 
   findById(id: string): Promise<DefaultResponse<Budget>>
+
+  /** Busca pública pelo token de aprovação, sem sessão. */
+  findPublic(token: string): Promise<DefaultResponse<Budget>>
+
+  /** Aprova ou recusa o orçamento pelo token público, sem sessão. */
+  decidePublic(token: string, status: 'APPROVED' | 'DENY'): Promise<DefaultResponse<Budget>>
 }
 
 export default function budgetService({ apiUrl }: BudgetServiceOptions): BudgetService {
@@ -55,7 +61,7 @@ export default function budgetService({ apiUrl }: BudgetServiceOptions): BudgetS
       })
     },
 
-    async update(id: string, budget: Budget): Promise<Budget> {
+    async update(id: string, budget: Budget): Promise<DefaultResponse<Budget>> {
       return await apiFetch(`${apiUrl}budgets/${id}`, {
         headers: {
           Authorization: 'Bearer ' + getTokenCookie().value?.token
@@ -71,6 +77,19 @@ export default function budgetService({ apiUrl }: BudgetServiceOptions): BudgetS
           Authorization: 'Bearer ' + getTokenCookie().value?.token
         },
         method: 'DELETE'
+      })
+    },
+
+    async findPublic(token: string): Promise<DefaultResponse<Budget>> {
+      return await apiFetch(`${apiUrl}budgets/public/${token}`, {
+        method: 'GET'
+      })
+    },
+
+    async decidePublic(token: string, status: 'APPROVED' | 'DENY'): Promise<DefaultResponse<Budget>> {
+      return await apiFetch(`${apiUrl}budgets/public/${token}/decision`, {
+        method: 'POST',
+        body: { status }
       })
     }
   }

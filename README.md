@@ -45,7 +45,7 @@ execução em kanban e registrar lembretes, integrada aos microservices via API.
 - Pipeline de status e kanban de execução
 - Dashboard com indicadores e orçamentos recentes
 - Geração de PDF e envio por WhatsApp
-- Lembretes (atualmente local, ver `TODO.md`)
+- Lembretes integrados ao serviço `tasks` (prioridade, cliente e observações)
 - PWA instalável
 
 ## 🧱 Arquitetura

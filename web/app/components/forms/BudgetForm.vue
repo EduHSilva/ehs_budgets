@@ -208,6 +208,7 @@ function onSubmit(event: FormSubmitEvent<Schema>) {
             icon="i-lucide-trash"
             color="error"
             variant="soft"
+            :aria-label="$t('delete')"
             @click="state.items.splice(index, 1)"
           />
         </div>

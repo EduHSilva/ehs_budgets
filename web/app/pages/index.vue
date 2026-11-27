@@ -26,9 +26,9 @@
               class="ehs-btn-primary"
             />
             <UButton
-              :label="$t('landingPage.viewDemo')"
-              icon="i-lucide-play-circle"
-              to="/dashboard"
+              :label="$t('login')"
+              icon="i-lucide-log-in"
+              to="/auth/login"
               color="neutral"
               variant="outline"
             />
@@ -38,44 +38,79 @@
         <UCard class="ehs-card">
           <template #header>
             <h3 class="text-base font-bold md:text-lg">
-              {{ $t('landingPage.dashboardSnapshot') }}
+              {{ $t('landingPage.flowCardTitle') }}
             </h3>
+            <p class="mt-1 text-sm text-muted">
+              {{ $t('landingPage.flowCardDescription') }}
+            </p>
           </template>
 
-          <div class="grid grid-cols-2 gap-3">
-            <div class="ehs-card-soft p-3">
-              <p class="text-xs text-muted">
-                {{ $t('landingPage.kpiClients') }}
-              </p>
-              <p class="mt-1 text-xl font-bold">
-                132
-              </p>
-            </div>
-            <div class="ehs-card-soft p-3">
-              <p class="text-xs text-muted">
-                {{ $t('landingPage.kpiPipeline') }}
-              </p>
-              <p class="mt-1 text-xl font-bold">
-                R$ 48.500
-              </p>
-            </div>
-            <div class="ehs-card-soft p-3">
-              <p class="text-xs text-muted">
-                {{ $t('landingPage.kpiTasks') }}
-              </p>
-              <p class="mt-1 text-xl font-bold">
-                17
-              </p>
-            </div>
-            <div class="ehs-card-soft p-3">
-              <p class="text-xs text-muted">
-                {{ $t('landingPage.kpiConversion') }}
-              </p>
-              <p class="mt-1 text-xl font-bold">
-                72%
-              </p>
-            </div>
-          </div>
+          <ol class="space-y-3">
+            <li class="ehs-card-soft flex items-start gap-3 p-3">
+              <UBadge
+                color="primary"
+                variant="subtle"
+              >
+                01
+              </UBadge>
+              <div>
+                <p class="text-sm font-semibold">
+                  {{ $t('landingPage.flowStepClient') }}
+                </p>
+                <p class="mt-0.5 text-sm text-muted">
+                  {{ $t('landingPage.flowStepClientDescription') }}
+                </p>
+              </div>
+            </li>
+            <li class="ehs-card-soft flex items-start gap-3 p-3">
+              <UBadge
+                color="primary"
+                variant="subtle"
+              >
+                02
+              </UBadge>
+              <div>
+                <p class="text-sm font-semibold">
+                  {{ $t('landingPage.flowStepProposal') }}
+                </p>
+                <p class="mt-0.5 text-sm text-muted">
+                  {{ $t('landingPage.flowStepProposalDescription') }}
+                </p>
+              </div>
+            </li>
+            <li class="ehs-card-soft flex items-start gap-3 p-3">
+              <UBadge
+                color="primary"
+                variant="subtle"
+              >
+                03
+              </UBadge>
+              <div>
+                <p class="text-sm font-semibold">
+                  {{ $t('landingPage.flowStepApproval') }}
+                </p>
+                <p class="mt-0.5 text-sm text-muted">
+                  {{ $t('landingPage.flowStepApprovalDescription') }}
+                </p>
+              </div>
+            </li>
+            <li class="ehs-card-soft flex items-start gap-3 p-3">
+              <UBadge
+                color="primary"
+                variant="subtle"
+              >
+                04
+              </UBadge>
+              <div>
+                <p class="text-sm font-semibold">
+                  {{ $t('landingPage.flowStepKanban') }}
+                </p>
+                <p class="mt-0.5 text-sm text-muted">
+                  {{ $t('landingPage.flowStepKanbanDescription') }}
+                </p>
+              </div>
+            </li>
+          </ol>
         </UCard>
       </div>
     </UPageSection>
@@ -113,14 +148,14 @@
 
         <UCard class="ehs-card">
           <UIcon
-            name="i-lucide-bell-dot"
+            name="i-lucide-badge-check"
             class="mb-3 size-5 text-primary"
           />
           <h3 class="font-semibold">
-            {{ $t('landingPage.smartAlarm') }}
+            {{ $t('landingPage.onlineApproval') }}
           </h3>
           <p class="mt-2 text-sm text-muted">
-            {{ $t('landingPage.smartAlarmDescription') }}
+            {{ $t('landingPage.onlineApprovalDescription') }}
           </p>
         </UCard>
 

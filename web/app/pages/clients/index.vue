@@ -6,7 +6,6 @@ import type { ColumnDef } from '@tanstack/vue-table'
 import { UBadge, UButton } from '#components'
 import type { Client } from '~/utils/types'
 
-type ClientStatus = 'NEW' | 'WORKING' | 'DONE'
 type ClientRow = Client
 
 const search = ref('')
@@ -65,11 +64,17 @@ function changePage(page: number) {
   refreshClients()
 }
 
-const status = {
+type BadgeColor = 'warning' | 'info' | 'success' | 'neutral' | 'error'
+
+const statusColors: Record<string, BadgeColor> = {
   NEW: 'neutral',
   WORKING: 'warning',
   DONE: 'success'
-} as const
+}
+
+function getStatusColor(value?: string): BadgeColor {
+  return (value && statusColors[value]) || 'neutral'
+}
 
 const cardsCount = computed(() => data.value.length)
 const newCount = computed(() =>
@@ -114,11 +119,10 @@ const columns: ColumnDef<ClientRow>[] = [
     accessorKey: 'status',
     header: $t('client.status'),
     cell: ({ row }) => {
-      const rawStatus = (row.getValue('status') as ClientStatus) || 'NEW'
-      const v = (rawStatus in status ? rawStatus : 'NEW') as keyof typeof status
+      const rawStatus = row.original.status || 'NEW'
       return h(
         UBadge,
-        { class: 'capitalize', variant: 'subtle', color: status[v] },
+        { class: 'capitalize', variant: 'subtle', color: getStatusColor(rawStatus) },
         () => statusLabel(rawStatus)
       )
     }
@@ -132,16 +136,18 @@ const columns: ColumnDef<ClientRow>[] = [
         { class: 'flex justify-end space-x-2' },
         [
           h(UButton, {
-            icon: 'i-lucide-pencil',
-            color: 'primary',
-            variant: 'ghost',
-            onClick: () => editClient(row.original)
+            'icon': 'i-lucide-pencil',
+            'color': 'primary',
+            'variant': 'ghost',
+            'aria-label': $t('edit'),
+            'onClick': () => editClient(row.original)
           }),
           h(UButton, {
-            icon: 'i-lucide-trash',
-            color: 'error',
-            variant: 'ghost',
-            onClick: () => deleteClient(row.original.id || '')
+            'icon': 'i-lucide-trash',
+            'color': 'error',
+            'variant': 'ghost',
+            'aria-label': $t('delete'),
+            'onClick': () => deleteClient(row.original.id || '')
           })
         ]
       )
@@ -305,7 +311,7 @@ function deleteClient(id: string) {
                 </p>
               </div>
               <UBadge
-                :color="status[(client.status || 'NEW') as keyof typeof status]"
+                :color="getStatusColor(client.status)"
                 variant="subtle"
               >
                 {{ statusLabel(client.status || 'NEW') }}
@@ -322,6 +328,7 @@ function deleteClient(id: string) {
                 icon="i-lucide-pencil"
                 color="primary"
                 variant="ghost"
+                :aria-label="$t('edit')"
                 @click="editClient(client)"
               />
               <UButton
@@ -329,6 +336,7 @@ function deleteClient(id: string) {
                 icon="i-lucide-trash"
                 color="error"
                 variant="ghost"
+                :aria-label="$t('delete')"
                 @click="deleteClient(client.id || '')"
               />
             </div>

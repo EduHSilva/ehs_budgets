@@ -4,14 +4,14 @@ import { getTokenCookie } from '~/utils/util'
 export default defineNuxtRouteMiddleware(async (to) => {
   const URLS_NO_LOGIN = ['/auth/login', '/auth/register', '/']
 
-  const token = getTokenCookie()
-
-  if (URLS_NO_LOGIN.includes(to.path)) {
+  // Link público de aprovação: o cliente abre sem conta, autenticado pelo token.
+  if (URLS_NO_LOGIN.includes(to.path) || to.path.startsWith('/approval/')) {
     return
   }
 
   const user = useUser()
   const { $userService } = useNuxtApp()
+  const token = getTokenCookie()
 
   if (user.value) return
   try {

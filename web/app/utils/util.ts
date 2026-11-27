@@ -4,10 +4,23 @@ export function getTokenCookie() {
   return useCookie<{ token: string | null } | null>('token', { maxAge: 60 * 60 * 24 * 30 })
 }
 
+// Espelhado a partir do i18n pelo plugin `formatLocale` (pt → BRL, en → USD).
+let currencyLocale: 'pt' | 'en' = 'pt'
+
+export function setFormatLocale(locale?: string | null) {
+  currencyLocale = locale === 'en' ? 'en' : 'pt'
+}
+
+export function currentCurrency() {
+  return currencyLocale === 'en' ? 'USD' : 'BRL'
+}
+
 export function formatCurrency(value: number) {
-  const locale = navigator == undefined ? '' : navigator.language
-  if (locale == 'en') {
-    return 'U$ ' + value.toFixed(2)
-  }
-  return 'R$ ' + value.toFixed(2)
+  const amount = Number.isFinite(value) ? value : 0
+  const locale = currencyLocale === 'en' ? 'en-US' : 'pt-BR'
+
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: currentCurrency()
+  }).format(amount)
 }

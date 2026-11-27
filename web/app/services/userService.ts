@@ -1,9 +1,14 @@
-import type { DefaultResponse, User } from '~/utils/types'
+import type { DefaultResponse, User, UserDetails } from '~/utils/types'
 import { getTokenCookie } from '~/utils/util'
 import { apiFetch } from '~/utils/apiFetch'
 
 export interface UserServiceOptions {
   apiUrl: string | unknown
+}
+
+export interface UserUpdatePayload {
+  username: string
+  email: string
 }
 
 export interface UserService {
@@ -12,6 +17,10 @@ export interface UserService {
   getUser(): Promise<DefaultResponse<User>>
 
   register(username: string, email: string, password: string): Promise<DefaultResponse<User>>
+
+  findById(id: string): Promise<DefaultResponse<UserDetails>>
+
+  update(id: string, payload: UserUpdatePayload): Promise<DefaultResponse<UserDetails>>
 }
 
 export default function userService({ apiUrl }: UserServiceOptions): UserService {
@@ -35,6 +44,24 @@ export default function userService({ apiUrl }: UserServiceOptions): UserService
       return await apiFetch(`${apiUrl}auth/register`, {
         method: 'POST',
         body: { username, email, password, role: 'BUDGETS' }
+      })
+    },
+
+    async findById(id: string): Promise<DefaultResponse<UserDetails>> {
+      return await apiFetch(`${apiUrl}users/${id}`, {
+        headers: {
+          Authorization: 'Bearer ' + getTokenCookie().value?.token
+        }
+      })
+    },
+
+    async update(id: string, payload: UserUpdatePayload): Promise<DefaultResponse<UserDetails>> {
+      return await apiFetch(`${apiUrl}users/${id}`, {
+        headers: {
+          Authorization: 'Bearer ' + getTokenCookie().value?.token
+        },
+        method: 'PUT',
+        body: payload
       })
     }
   }

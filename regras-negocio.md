@@ -24,12 +24,24 @@
 - Status (`BudgetStatus`): `DRAFT`, `SEND`, `WAITING`, `APPROVED`, `WORKING`, `DONE`,
   `CANCEL`, `DENY`, `DELETED`.
   - Transições permitidas (validadas no `PUT`; fora da matriz → 400):
-    `DRAFT → SEND`; `SEND → WAITING`; `WAITING → APPROVED | DENY`;
-    `APPROVED → WORKING`; `WORKING → DONE`; qualquer status `→ CANCEL`.
-    `DELETED` só via `DELETE` (o `PUT` continua rejeitando).
+    `DRAFT → WAITING | SEND`; `SEND → WAITING | APPROVED | DENY`;
+    `WAITING → APPROVED | DENY`; `APPROVED → WORKING`; `WORKING → DONE`;
+    qualquer status `→ CANCEL`. `DELETED` só via `DELETE` (o `PUT` continua rejeitando).
+  - `DRAFT → SEND` é compatibilidade com registros antigos: a UI atual envia o rascunho
+    direto para `WAITING` (não há envio automatizado que justifique `SEND`).
   - Manter o mesmo status é permitido (edição sem mudar de etapa). `DONE`, `DENY` e
     `CANCEL` são finais: só aceitam `CANCEL` ou exclusão.
   - `?status=` inválido na listagem retorna 400.
+- Link público de aprovação:
+  - Cada orçamento recebe um `approvalToken` (UUID) imutável na criação. Orçamentos
+    antigos sem token ganham um na primeira edição/envio.
+  - O token dá acesso sem login a `GET /budgets/public/{token}` (leitura) e
+    `POST /budgets/public/{token}/decision` com `{"status":"APPROVED"|"DENY"}`.
+  - A decisão pública só vale a partir de `WAITING` (ou `SEND` legado) e apenas para
+    `APPROVED`/`DENY`; repetir a decisão retorna 400. Token inexistente → 404.
+  - O prestador também pode aprovar pelo preview (botão "Aprovar" em `WAITING`/`SEND`).
+  - No front o link é montado sobre a origem atual + `approval/{token}` e aparece no
+    preview, no PDF (clicável) e na mensagem do WhatsApp.
 - Itens: descrição, quantidade e preço unitário. Subtotal = preço × quantidade;
   total do orçamento = soma dos subtotais. A edição substitui a lista de itens.
   Na criação é exigido ao menos um item; na edição a lista pode vir vazia.
@@ -44,18 +56,43 @@
   `DRAFT`, `SEND`, `WAITING`, `CANCEL` e `DENY` não aparecem no quadro.
   - O arrasto só avança uma coluna por vez (`APPROVED → WORKING → DONE`); mover para
     trás é bloqueado no cliente (o backend também rejeita com 400).
-- Aprovação do orçamento = `PUT` com `status=APPROVED` a partir de `WAITING` (o botão
-  "Aprovar" só aparece nesse status).
+- Aprovação do orçamento: o envio é `DRAFT → WAITING` (botão "Enviar para aprovação"
+  no preview, que também copia o link público). O cliente decide pelo link; o prestador
+  pode aprovar pelo botão "Aprovar" (`WAITING`/`SEND`).
 - Dashboard: total de clientes, serviços pendentes (`APPROVED` = aprovados pelo cliente e
   ainda sem execução), serviços em andamento (`WORKING`) e total recebido (soma dos itens
   de orçamentos `DONE`) — tudo do usuário do token.
+
+## Lembretes
+
+- O lembrete é uma tarefa do serviço compartilhado `tasks`, com `source = BUDGETS`:
+  `type = UNIQUE`, `startDate` = data/hora escolhida, sem `endDate` (não é um prazo).
+  O serviço devolve somente as tarefas da aplicação do token, então os lembretes não
+  aparecem no StudyFlow nem vice-versa.
+- Campos próprios do lembrete: `clientId` (cliente do CRM, opcional), `priority`
+  (`LOW`/`MEDIUM`/`HIGH`, padrão `MEDIUM`) e `details` (texto livre). Não há canal
+  sugerido; a descrição livre fica em `details`.
+- Status usado: `PENDING` e `DONE` (concluir grava `completedDate`). "Hoje" é derivado de
+  `startDate` e não é status; `DELAYED` não se aplica porque o lembrete não tem prazo.
+- As datas são enviadas em ISO com o fuso do navegador e o backend resolve os dias pelo
+  header `X-Time-Zone`, como no StudyFlow.
+- Tarefas anteriores à integração pertencem ao StudyFlow (`source = STUDY`); o script
+  `tasks/src/main/resources/db/migrations/2026-11-27_task_source_priority.sql` faz o
+  backfill em bancos atualizados fora do `ddl-auto=update`.
 
 ## Documento
 
 - O preview mostra itens, subtotal, total, termos e observações.
 - O PDF é gerado no navegador (jsPDF) e o envio usa Web Share API, com fallback de
-  download + WhatsApp Web.
-- Valores são formatados em BRL (moeda não configurável hoje).
+  download + WhatsApp Web. PDF e mensagem incluem o link público de aprovação.
+- Valores seguem o idioma da interface: pt → `BRL`, en → `USD` (`Intl.NumberFormat`).
+  O idioma também ajusta `<html lang>`.
+
+## Conta e preferências
+
+- A tela de Conta lê `GET /users/{id}` e salva nome/e-mail em `PUT /users/{id}`.
+- O idioma da interface é a preferência persistida (cookie do i18n) e define a moeda.
+- A antiga tela "Gerais" foi removida; a entrada de configurações aponta direto para a Conta.
 
 ## Cadastro e acesso
 

@@ -5,9 +5,6 @@
  */
 const colorName = 'brand'
 
-// Melhor esforço para o tailwind-merge reconhecer as shades numéricas da marca.
-const colorScale = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950, colorName]
-
 export default defineAppConfig({
   ui: {
     colors: {
@@ -47,15 +44,6 @@ export default defineAppConfig({
       slots: {
         root: '[&]:rounded-xl [&]:border [&]:border-dashed [&]:border-[var(--ui-ehs-border-strong)] [&]:bg-[color-mix(in_srgb,var(--ui-ehs-bg)_55%,var(--ui-ehs-surface))]',
         title: '[&]:font-heading [&]:text-[17px] [&]:font-semibold [&]:tracking-[-0.01em]'
-      }
-    },
-    tv: {
-      twMergeConfig: {
-        extend: {
-          theme: {
-            color: colorScale
-          }
-        }
       }
     }
   }

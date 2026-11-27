@@ -2,6 +2,7 @@
 import CustomHeader from '~/components/CustomHeader.vue'
 
 const appBase = useRuntimeConfig().app.baseURL
+const { locale } = useI18n()
 
 useHead({
   titleTemplate: title => (title ? `${title} · Orçamentos` : 'Orçamentos — EHS Solutions'),
@@ -16,7 +17,7 @@ useHead({
     { rel: 'apple-touch-icon', href: `${appBase}apple-touch-icon.png` }
   ],
   htmlAttrs: {
-    lang: 'pt-BR'
+    lang: computed(() => locale.value === 'en' ? 'en-US' : 'pt-BR')
   }
 })
 

@@ -83,7 +83,7 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
             {{ $t('auth.registerStatOne') }}
           </p>
           <p class="mt-1 text-lg font-bold">
-            5 min
+            {{ $t('auth.registerStatOneValue') }}
           </p>
         </div>
         <div class="ehs-card-soft p-3">
@@ -91,7 +91,7 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
             {{ $t('auth.registerStatTwo') }}
           </p>
           <p class="mt-1 text-lg font-bold">
-            100%
+            {{ $t('auth.registerStatTwoValue') }}
           </p>
         </div>
         <div class="rounded-lg border border-default p-3 sm:col-span-2">

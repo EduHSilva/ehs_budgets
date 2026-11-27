@@ -162,8 +162,10 @@ h3 { letter-spacing: -0.015em }
    Componentes — mesma linguagem do ehs_study, com accent azul.
    ============================================================ */
 @layer components {
-  /* Botões e inputs com 40px de altura (o raio vem de --ui-radius = 10px). */
-  button[data-slot="base"],
+  /* Botões e inputs com 40px de altura (o raio vem de --ui-radius = 10px).
+     O CheckboxRoot também usa data-slot="base", mas é um controle quadrado:
+     fica fora da regra para não virar uma caixa de 40px. */
+  button[data-slot="base"]:not([role="checkbox"]),
   a[data-slot="base"],
   label[data-slot="base"] {
     min-height: 40px;

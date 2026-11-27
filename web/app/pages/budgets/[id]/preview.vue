@@ -6,18 +6,33 @@ const router = useRouter()
 const toast = useToast()
 const { $budgetService } = useNuxtApp()
 
-const budgetId = route.params.id as string
+const budgetId = String(route.params.id || '')
 const response = await $budgetService.findById(budgetId)
 const budget = ref(response.data)
 const approving = ref(false)
+const sending = ref(false)
+const copiedLink = ref(false)
 const exportingPdf = ref(false)
 const sharingWhatsApp = ref(false)
+
+const runtimeConfig = useRuntimeConfig()
+
+// Link público de aprovação: o cliente decide sem criar conta.
+const approvalUrl = computed(() => {
+  if (!budget.value?.approvalToken || !import.meta.client) return ''
+
+  const base = runtimeConfig.app.baseURL || '/'
+  const normalizedBase = base.endsWith('/') ? base : `${base}/`
+  return `${window.location.origin}${normalizedBase}approval/${budget.value.approvalToken}`
+})
 
 function handleBack() {
   router.back()
 }
 
-const statusColor = {
+type BadgeColor = 'warning' | 'info' | 'success' | 'neutral' | 'error'
+
+const statusColors: Record<string, BadgeColor> = {
   DRAFT: 'warning',
   SEND: 'info',
   WAITING: 'warning',
@@ -27,7 +42,7 @@ const statusColor = {
   CANCEL: 'error',
   DENY: 'error',
   DELETED: 'error'
-} as const
+}
 
 function statusLabel(value?: string) {
   if (!value) return '-'
@@ -46,9 +61,8 @@ function statusLabel(value?: string) {
   }
 }
 
-function getStatusColor(value?: string) {
-  if (!value || !(value in statusColor)) return 'neutral'
-  return statusColor[value as keyof typeof statusColor]
+function getStatusColor(value?: string): BadgeColor {
+  return (value && statusColors[value]) || 'neutral'
 }
 
 function itemTotal(quantity: number, price: number) {
@@ -59,7 +73,13 @@ const subtotal = computed(() =>
   (budget.value?.items ?? []).reduce((acc, item) => acc + itemTotal(item.quantity, item.price), 0)
 )
 
-const shouldShowApprove = computed(() => budget.value?.status === 'WAITING')
+const shouldShowApprove = computed(() =>
+  budget.value?.status === 'WAITING' || budget.value?.status === 'SEND'
+)
+
+// Enviar = DRAFT -> WAITING. A partir daí o cliente decide pelo link público
+// (e o prestador também pode aprovar aqui).
+const canSend = computed(() => budget.value?.status === 'DRAFT')
 
 const issuedAt = computed(() => {
   const formatter = new Intl.DateTimeFormat(undefined, {
@@ -147,6 +167,25 @@ async function buildPdf() {
   writeLabelValue(`${$t('budget.validate')}:`, `${budget.value?.validate ?? 0} ${$t('budget.validForDays')}`)
   writeLabelValue(`${$t('budget.subtotal')}:`, formatCurrency(subtotal.value))
   writeLabelValue(`${$t('budget.total')}:`, formatCurrency(budget.value?.total ?? subtotal.value))
+
+  if (approvalUrl.value) {
+    addPageIfNeeded(14)
+    pdf.setFont('helvetica', 'bold')
+    pdf.setFontSize(10)
+    pdf.text(`${$t('budget.approvalLink')}`, margin, cursorY)
+    cursorY += lineHeight
+
+    pdf.setFont('helvetica', 'normal')
+    pdf.setTextColor(47, 95, 168)
+    const linkLines = pdf.splitTextToSize(approvalUrl.value, contentWidth)
+    for (const line of linkLines) {
+      addPageIfNeeded(lineHeight)
+      pdf.textWithLink(line, margin, cursorY, { url: approvalUrl.value })
+      cursorY += lineHeight
+    }
+    pdf.setTextColor(0, 0, 0)
+  }
+
   cursorY += 4
 
   writeWrappedBlock($t('budget.description'), budget.value?.description || '')
@@ -242,10 +281,13 @@ async function handleShareWhatsApp() {
     const pdf = await buildPdf()
     const blob = pdf.output('blob')
     const file = new File([blob], pdfFileName.value, { type: 'application/pdf' })
-    const message = $t('budget.whatsMessage', {
+    const baseMessage = $t('budget.whatsMessage', {
       title: budget.value?.title || '-',
       total: formatCurrency(budget.value?.total ?? subtotal.value)
     })
+    const message = approvalUrl.value
+      ? `${baseMessage}\n\n${$t('budget.whatsApprovalLink')}: ${approvalUrl.value}`
+      : baseMessage
 
     if (import.meta.client && navigator.canShare && navigator.canShare({ files: [file] })) {
       await navigator.share({
@@ -290,6 +332,61 @@ async function handleShareWhatsApp() {
   }
 }
 
+async function copyApprovalLink(silent = false) {
+  if (!approvalUrl.value || !import.meta.client) return
+
+  try {
+    await navigator.clipboard.writeText(approvalUrl.value)
+    copiedLink.value = true
+    setTimeout(() => {
+      copiedLink.value = false
+    }, 2000)
+
+    if (!silent) {
+      toast.add({
+        title: $t('success'),
+        description: $t('budget.linkCopied'),
+        icon: 'i-lucide-link',
+        color: 'success'
+      })
+    }
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+async function handleSend() {
+  if (!budget.value) return
+
+  sending.value = true
+  try {
+    const { data } = await $budgetService.update(budgetId, {
+      ...budget.value,
+      status: 'WAITING'
+    })
+
+    budget.value = { ...budget.value, ...data, status: 'WAITING' }
+    await copyApprovalLink(true)
+
+    toast.add({
+      title: $t('success'),
+      description: $t('budget.sentSuccess'),
+      icon: 'i-lucide-send',
+      color: 'success'
+    })
+  } catch (e) {
+    console.error(e)
+    toast.add({
+      title: $t('attention'),
+      description: $t('errors.saveError'),
+      icon: 'i-lucide-alert-triangle',
+      color: 'error'
+    })
+  } finally {
+    sending.value = false
+  }
+}
+
 async function handleApprove() {
   if (!budget.value) return
 
@@ -301,7 +398,7 @@ async function handleApprove() {
     }
 
     await $budgetService.update(budgetId, payload)
-    budget.value.status = 'APPROVED'
+    budget.value = { ...budget.value, status: 'APPROVED' }
 
     toast.add({
       title: $t('success'),
@@ -349,6 +446,23 @@ async function handleApprove() {
             size="sm"
             :label="$t('budget.back')"
             @click="handleBack"
+          />
+          <UButton
+            v-if="canSend"
+            icon="i-lucide-send"
+            size="sm"
+            :label="$t('budget.sendForApproval')"
+            :loading="sending"
+            @click="handleSend"
+          />
+          <UButton
+            v-if="approvalUrl"
+            icon="i-lucide-link"
+            color="neutral"
+            variant="outline"
+            size="sm"
+            :label="copiedLink ? $t('budget.linkCopied') : $t('budget.copyApprovalLink')"
+            @click="copyApprovalLink()"
           />
           <UButton
             icon="i-lucide-file-down"
@@ -435,6 +549,31 @@ async function handleApprove() {
             icon="i-lucide-list-ordered"
           />
         </UPageGrid>
+
+        <UCard
+          v-if="approvalUrl"
+          class="mb-6"
+        >
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="min-w-0">
+              <h2 class="ehs-section-title">
+                {{ $t('budget.approvalLinkTitle') }}
+              </h2>
+              <p class="mt-1 text-sm text-muted">
+                {{ $t('budget.approvalLinkHint') }}
+              </p>
+              <p class="mt-2 truncate text-sm font-medium text-primary">
+                {{ approvalUrl }}
+              </p>
+            </div>
+            <UButton
+              icon="i-lucide-link"
+              size="sm"
+              :label="copiedLink ? $t('budget.linkCopied') : $t('budget.copyApprovalLink')"
+              @click="copyApprovalLink()"
+            />
+          </div>
+        </UCard>
 
         <div class="mb-6 grid gap-6 xl:grid-cols-3">
           <UCard class="xl:col-span-2">

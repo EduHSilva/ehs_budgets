@@ -16,6 +16,19 @@ export type User = {
   username: string
   id: string
   token: string
+  lastLogin?: string
+  roles?: string[]
+  apps?: string[]
+}
+
+export type UserDetails = {
+  id: string
+  createdDate?: string
+  email: string
+  username: string
+  status?: string
+  roles?: string[]
+  companyName?: string | null
 }
 
 export type Client = {
@@ -41,6 +54,7 @@ export type Budget = {
   description: string
   client: string
   clientName?: string
+  approvalToken?: string
   validate: number
   items: Item[]
   terms?: string
@@ -48,6 +62,24 @@ export type Budget = {
   observations?: string
   total?: number
   kanbanOrder?: number
+}
+
+export type TaskPriority = 'LOW' | 'MEDIUM' | 'HIGH'
+
+export type TaskStatus = 'PENDING' | 'WORKING' | 'DONE' | 'DELAYED'
+
+export type Task = {
+  id: string
+  title: string
+  details: string | null
+  startDate: string
+  endDate: string | null
+  type: string
+  status: TaskStatus
+  priority: TaskPriority
+  clientId: string | null
+  completedDate?: string | null
+  createdDate?: string
 }
 
 export type DashboardData = {

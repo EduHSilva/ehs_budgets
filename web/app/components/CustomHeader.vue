@@ -26,7 +26,6 @@ const navigation = computed(() => [
   { label: $t('budgets'), to: '/budgets', icon: 'i-lucide-notebook' },
   { label: $t('kanban.title'), to: '/kanban', icon: 'i-lucide-kanban' },
   { label: $t('reminders'), to: '/reminders', icon: 'i-lucide-bell-dot' },
-  { label: $t('settings'), to: '/settings/general', icon: 'i-lucide-settings' },
   { label: $t('account'), to: '/settings/account', icon: 'i-lucide-circle-user' }
 ])
 

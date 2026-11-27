@@ -29,10 +29,6 @@ const statusFilter = [
     id: 'DRAFT'
   },
   {
-    label: $t('budget.send'),
-    id: 'SEND'
-  },
-  {
     label: $t('budget.waiting'),
     id: 'WAITING'
   },
@@ -84,7 +80,9 @@ function changePage(page: number) {
   refresh()
 }
 
-const status = {
+type BadgeColor = 'warning' | 'info' | 'success' | 'neutral' | 'error'
+
+const statusColors: Record<string, BadgeColor> = {
   DRAFT: 'warning',
   WAITING: 'warning',
   SEND: 'info',
@@ -93,7 +91,11 @@ const status = {
   DONE: 'success',
   CANCEL: 'error',
   DENY: 'error'
-} as const
+}
+
+function getStatusColor(value?: string): BadgeColor {
+  return (value && statusColors[value]) || 'neutral'
+}
 
 const cardsCount = computed(() => data.value.length)
 const approvedCount = computed(() =>
@@ -156,11 +158,10 @@ const columns: ColumnDef<BudgetRow>[] = [
     accessorKey: 'status',
     header: $t('budget.status'),
     cell: ({ row }) => {
-      const rawStatus = (row.getValue('status') as string) || 'DRAFT'
-      const v = (rawStatus in status ? rawStatus : 'DRAFT') as keyof typeof status
+      const rawStatus = row.original.status || 'DRAFT'
       return h(
         UBadge,
-        { class: 'capitalize', variant: 'subtle', color: status[v] },
+        { class: 'capitalize', variant: 'subtle', color: getStatusColor(rawStatus) },
         () => statusLabel(rawStatus)
       )
     }
@@ -174,22 +175,25 @@ const columns: ColumnDef<BudgetRow>[] = [
         { class: 'flex justify-end space-x-2' },
         [
           h(UButton, {
-            icon: 'i-lucide-eye',
-            color: 'neutral',
-            variant: 'ghost',
-            onClick: () => viewBudget(row.original)
+            'icon': 'i-lucide-eye',
+            'color': 'neutral',
+            'variant': 'ghost',
+            'aria-label': $t('view'),
+            'onClick': () => viewBudget(row.original)
           }),
           h(UButton, {
-            icon: 'i-lucide-pencil',
-            color: 'primary',
-            variant: 'ghost',
-            onClick: () => editBudget(row.original)
+            'icon': 'i-lucide-pencil',
+            'color': 'primary',
+            'variant': 'ghost',
+            'aria-label': $t('edit'),
+            'onClick': () => editBudget(row.original)
           }),
           h(UButton, {
-            icon: 'i-lucide-trash',
-            color: 'error',
-            variant: 'ghost',
-            onClick: () => deleteBudget(row.original.id ?? '')
+            'icon': 'i-lucide-trash',
+            'color': 'error',
+            'variant': 'ghost',
+            'aria-label': $t('delete'),
+            'onClick': () => deleteBudget(row.original.id ?? '')
           })
         ]
       )
@@ -355,7 +359,7 @@ function deleteBudget(id: string) {
                 </p>
               </div>
               <UBadge
-                :color="status[(budgetRow.status || 'DRAFT') as keyof typeof status]"
+                :color="getStatusColor(budgetRow.status)"
                 variant="subtle"
               >
                 {{ statusLabel(budgetRow.status || 'DRAFT') }}
@@ -373,6 +377,7 @@ function deleteBudget(id: string) {
                 icon="i-lucide-eye"
                 color="neutral"
                 variant="ghost"
+                :aria-label="$t('view')"
                 @click="viewBudget(budgetRow)"
               />
               <UButton
@@ -380,6 +385,7 @@ function deleteBudget(id: string) {
                 icon="i-lucide-pencil"
                 color="primary"
                 variant="ghost"
+                :aria-label="$t('edit')"
                 @click="editBudget(budgetRow)"
               />
               <UButton
@@ -387,6 +393,7 @@ function deleteBudget(id: string) {
                 icon="i-lucide-trash"
                 color="error"
                 variant="ghost"
+                :aria-label="$t('delete')"
                 @click="deleteBudget(budgetRow.id ?? '')"
               />
             </div>
